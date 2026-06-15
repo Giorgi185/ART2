@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Collection — Art Gallery{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>The Collection</h1>
+    <span class="subtitle">{{ pagination.total }} work{% if pagination.total != 1 %}s{% endif %}</span>
+  </div>
+  {% if current_user.is_authenticated %}
+  <a href="/add_artwork" class="btn btn-gold">+ Add Artwork</a>
+  {% else %}
+  <a href="/login" class="btn btn-outline-gold">Sign In to Contribute</a>
+  {% endif %}
+</div>
+
+<!-- ── SEARCH & FILTER ── -->
+<form method="GET" action="/" class="filter-bar">
+  <input type="text" name="q" value="{{ search_query }}" placeholder="Search by title or artist..." class="form-control">
+  <select name="category" class="form-select">
+    <option value="">All Categories</option>
+    {% for cat in categories %}
+    <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="btn btn-outline-gold">Filter</button>
+  {% if search_query or selected_category %}
+  <a href="/" class="btn btn-ghost">Clear</a>
+  {% endif %}
+</form>
+
+{% if artworks %}
+<div class="gallery-grid">
+  {% for artwork in artworks %}
+  <div class="artwork-card">
+    <div class="card-image-wrap">
+      <img src="/static/images/{{ artwork.image }}" class="card-image" alt="{{ artwork.title }}">
+      {% if current_user.is_authenticated %}
+      <form method="POST" action="/favorite/{{ artwork.id }}" class="favorite-form">
+        <button type="submit" class="favorite-btn {% if artwork.id in favorite_ids %}is-favorited{% endif %}" title="Toggle favorite">
+          {% if artwork.id in favorite_ids %}♥{% else %}♡{% endif %}
+        </button>
+      </form>
+      {% endif %}
+      {% if artwork.for_sale %}
+      <span class="sale-badge">For Sale{% if artwork.price %} · ${{ "%.2f"|format(artwork.price) }}{% endif %}</span>
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <p class="card-category">{{ artwork.category }}</p>
+      <h5 class="card-title">{{ artwork.title }}</h5>
+      <p class="card-artist">{{ artwork.artist }}</p>
+      {% if artwork.average_rating %}
+      <p class="card-rating">★ {{ artwork.average_rating }} ({{ artwork.rating_count }})</p>
+      {% endif %}
+      <div class="card-actions">
+        <a href="/artwork/{{ artwork.id }}" class="btn btn-outline-gold btn-sm">View Details</a>
+        {% if current_user.is_authenticated and (current_user.is_admin() or artwork.user_id == current_user.id) %}
+        <a href="/update_artwork/{{ artwork.id }}" class="btn btn-ghost btn-sm">Edit</a>
+        <a href="/delete_artwork/{{ artwork.id }}" class="btn btn-danger btn-sm">Delete</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- ── PAGINATION ── -->
+{% if pagination.pages > 1 %}
+<div class="pagination-bar">
+  {% if pagination.has_prev %}
+  <a href="?page={{ pagination.prev_num }}&q={{ search_query }}&category={{ selected_category }}" class="btn btn-ghost btn-sm">← Prev</a>
+  {% endif %}
+  {% for p in pagination.iter_pages() %}
+    {% if p %}
+      <a href="?page={{ p }}&q={{ search_query }}&category={{ selected_category }}" class="btn btn-sm {% if p == pagination.page %}btn-gold{% else %}btn-ghost{% endif %}">{{ p }}</a>
+    {% else %}
+      <span class="pagination-ellipsis">…</span>
+    {% endif %}
+  {% endfor %}
+  {% if pagination.has_next %}
+  <a href="?page={{ pagination.next_num }}&q={{ search_query }}&category={{ selected_category }}" class="btn btn-ghost btn-sm">Next →</a>
+  {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<div class="empty-state">
+  <div class="icon">🖼</div>
+  <p>No artworks found.</p>
+  {% if current_user.is_authenticated %}
+  <a href="/add_artwork" class="btn btn-gold">Add the First Artwork</a>
+  {% else %}
+  <a href="/register" class="btn btn-gold">Join to Add Artwork</a>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- ── FEATURED ARTISTS ── -->
+<div class="section-divider">
+  <h2>Featured Artists</h2>
+</div>
+
+<div class="artists-grid">
+  {% for artist in artists %}
+  <div class="artist-card">
+    <img src="/static/images/{{ artist.img }}" alt="{{ artist.name }}" class="artist-portrait">
+    <div class="artist-info">
+      <p class="artist-name">{{ artist.name }}</p>
+      <p class="artist-style">{{ artist.info }}</p>
+      <a href="{{ artist.wiki }}" target="_blank" rel="noopener" class="btn btn-outline-gold btn-wiki">Wikipedia →</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

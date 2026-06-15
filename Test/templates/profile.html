@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}My Profile — Art Gallery{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>{{ current_user.username }}</h1>
+    <span class="subtitle">{% if current_user.is_admin() %}Admin{% else %}Member{% endif %}</span>
+  </div>
+  <a href="/add_artwork" class="btn btn-gold">+ Add Artwork</a>
+</div>
+
+<div class="section-divider">
+  <h2>My Uploads ({{ my_artworks | length }})</h2>
+</div>
+
+{% if my_artworks %}
+<div class="gallery-grid">
+  {% for artwork in my_artworks %}
+  <div class="artwork-card">
+    <div class="card-image-wrap">
+      <img src="/static/images/{{ artwork.image }}" class="card-image" alt="{{ artwork.title }}">
+      {% if artwork.for_sale %}
+      <span class="sale-badge">For Sale{% if artwork.price %} · ${{ "%.2f"|format(artwork.price) }}{% endif %}</span>
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <p class="card-category">{{ artwork.category }}</p>
+      <h5 class="card-title">{{ artwork.title }}</h5>
+      <p class="card-artist">{{ artwork.artist }}</p>
+      {% if artwork.average_rating %}
+      <p class="card-rating">★ {{ artwork.average_rating }} ({{ artwork.rating_count }})</p>
+      {% endif %}
+      <div class="card-actions">
+        <a href="/artwork/{{ artwork.id }}" class="btn btn-outline-gold btn-sm">View Details</a>
+        <a href="/update_artwork/{{ artwork.id }}" class="btn btn-ghost btn-sm">Edit</a>
+        <a href="/delete_artwork/{{ artwork.id }}" class="btn btn-danger btn-sm">Delete</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <p>You haven't uploaded any artworks yet.</p>
+  <a href="/add_artwork" class="btn btn-gold">Add Your First Artwork</a>
+</div>
+{% endif %}
+
+<div class="section-divider">
+  <h2>My Favorites ({{ my_favorites | length }})</h2>
+</div>
+
+{% if my_favorites %}
+<div class="gallery-grid">
+  {% for artwork in my_favorites %}
+  <div class="artwork-card">
+    <div class="card-image-wrap">
+      <img src="/static/images/{{ artwork.image }}" class="card-image" alt="{{ artwork.title }}">
+      {% if artwork.for_sale %}
+      <span class="sale-badge">For Sale{% if artwork.price %} · ${{ "%.2f"|format(artwork.price) }}{% endif %}</span>
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <p class="card-category">{{ artwork.category }}</p>
+      <h5 class="card-title">{{ artwork.title }}</h5>
+      <p class="card-artist">{{ artwork.artist }}</p>
+      <div class="card-actions">
+        <a href="/artwork/{{ artwork.id }}" class="btn btn-outline-gold btn-sm">View Details</a>
+        <form method="POST" action="/favorite/{{ artwork.id }}" class="d-inline">
+          <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="meta">No favorites yet. Browse the <a href="/" class="btn-link-gold">collection</a> and add some!</p>
+{% endif %}
+
+{% endblock %}

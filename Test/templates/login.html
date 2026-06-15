@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Login — Art Gallery{% endblock %}
+
+{% block content %}
+<div class="form-card">
+  <h1>Welcome Back</h1>
+  {% for errors in form.errors.values() %}
+    <div class="alert alert-danger mb-3">
+      {% for error in errors %}{{ error }}{% endfor %}
+    </div>
+  {% endfor %}
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-row">{{ form.username(class="form-control", placeholder="Username") }}</div>
+    <div class="form-row">{{ form.password(class="form-control", placeholder="Password") }}</div>
+    <div class="form-row">{{ form.login(class="btn btn-gold form-submit") }}</div>
+  </form>
+  <div class="text-center mt-3" style="font-size:0.82rem; color:var(--text-muted);">
+    Don't have an account?
+    <a href="/register" style="color:var(--gold);">Register</a>
+  </div>
+</div>
+{% endblock %}

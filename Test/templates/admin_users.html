@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Manage Users — Art Gallery{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Manage Users</h1>
+    <span class="subtitle">{{ users | length }} user{% if users | length != 1 %}s{% endif %}</span>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>
+          {% if user.is_admin() %}
+          <span class="badge-admin">Admin</span>
+          {% else %}
+          <span class="badge-guest">Guest</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if user.is_admin() %}
+            {% if user.id != current_user.id %}
+            <a href="/admin/users/{{ user.id }}/demote" class="btn btn-ghost btn-sm">Demote to Guest</a>
+            {% else %}
+            <span class="meta">(you)</span>
+            {% endif %}
+          {% else %}
+          <a href="/admin/users/{{ user.id }}/promote" class="btn btn-gold btn-sm">Promote to Admin</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

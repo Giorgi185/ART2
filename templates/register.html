@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Register — Art Gallery{% endblock %}
+
+{% block content %}
+<div class="form-card">
+  <h1>Create Account</h1>
+  {% for errors in form.errors.values() %}
+    <div class="alert alert-danger mb-3">
+      {% for error in errors %}{{ error }}{% endfor %}
+    </div>
+  {% endfor %}
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-row">{{ form.username(class="form-control", placeholder="Username") }}</div>
+    <div class="form-row">{{ form.password(class="form-control", placeholder="Password") }}</div>
+    <div class="form-row">{{ form.confirm_password(class="form-control", placeholder="Confirm Password") }}</div>
+    <div class="form-row">{{ form.register(class="btn btn-gold form-submit") }}</div>
+  </form>
+  <div class="text-center mt-3" style="font-size:0.82rem; color:var(--text-muted);">
+    Already have an account?
+    <a href="/login" style="color:var(--gold);">Login</a>
+  </div>
+</div>
+{% endblock %}

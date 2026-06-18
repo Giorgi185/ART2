@@ -1,0 +1,427 @@
+.artist-portrait {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+body {
+    background-color: #0d0d0d;
+    color: #e8e2d9;
+}
+
+nav {
+    background-color: #161616;
+}
+
+.navbar-brand {
+    color: #c9a84c !important;
+}
+
+.nav-link {
+    color: #7a7468 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-link:hover {
+    color: #e8e2d9 !important;
+}
+
+.btn {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+}
+
+.btn-gold {
+    background-color: #c9a84c;
+    color: #0d0d0d;
+}
+
+.btn-gold:hover {
+    background-color: #e8c97a;
+}
+
+.btn-outline-gold {
+    background-color: transparent;
+    color: #c9a84c;
+    border: 1px solid #c9a84c;
+}
+
+.btn-outline-gold:hover {
+    background-color: #c9a84c;
+    color: #0d0d0d;
+}
+
+.btn-ghost {
+    background-color: transparent;
+    color: #7a7468;
+    border: 1px solid #2a2a2a;
+}
+
+.btn-ghost:hover {
+    color: #e8e2d9;
+}
+
+.btn-danger {
+    background-color: transparent;
+    color: #e07070;
+    border: 1px solid #e07070;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header .subtitle {
+    color: #7a7468;
+    text-transform: uppercase;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.artwork-card,
+.artist-card {
+    background-color: #161616;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.artwork-card:hover,
+.artist-card:hover {
+    border: 1px solid #c9a84c;
+    transform: translateY(-4px);
+}
+
+.artwork-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.artwork-card .card-body {
+    padding: 1rem;
+}
+
+.artwork-card .card-title {
+    color: #e8e2d9;
+}
+
+.artwork-card .card-artist {
+    color: #7a7468;
+}
+
+.artwork-card .card-category {
+    color: #c9a84c;
+    text-transform: uppercase;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #7a7468;
+}
+
+.detail-back {
+    color: #7a7468;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.detail-back:hover {
+    color: #c9a84c;
+}
+
+.detail-image {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.detail-panel {
+    background-color: #161616;
+    border-radius: 4px;
+    padding: 2rem;
+}
+
+.detail-panel .meta {
+    color: #7a7468;
+}
+
+.detail-panel .category-badge {
+    color: #c9a84c;
+    text-transform: uppercase;
+}
+
+.form-card {
+    background-color: #161616;
+    border-radius: 4px;
+    padding: 2.5rem;
+    max-width: 480px;
+    margin: auto;
+}
+
+.form-card h1 {
+    text-align: center;
+}
+
+.form-control,
+.form-select {
+    background-color: #1e1e1e !important;
+    color: #e8e2d9 !important;
+    border-radius: 4px !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border: 1px solid #c9a84c !important;
+    box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.15) !important;
+}
+
+.form-control::placeholder {
+    color: #7a7468 !important;
+}
+
+.form-submit {
+    width: 100%;
+}
+
+.alert-success {
+    background-color: #161616;
+    border: 1px solid #c9a84c;
+    color: #e8c97a;
+}
+
+.alert-danger {
+    background-color: #161616;
+    border: 1px solid #e07070;
+    color: #e07070;
+}
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0 1.5rem;
+}
+
+.section-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #2a2a2a;
+}
+
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.artist-portrait-placeholder {
+    background-color: #1e1e1e;
+    padding: 1.5rem 0;
+}
+
+.artist-info {
+    padding: 0.75rem;
+}
+
+.artist-name {
+    color: #e8e2d9;
+}
+
+.artist-style {
+    color: #7a7468;
+}
+/* ── Search/filter bar ── */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.filter-bar input,
+.filter-bar select {
+    flex: 1;
+    min-width: 160px;
+}
+
+/* ── Card image wrapper for favorite/sale badges ── */
+.card-image-wrap {
+    position: relative;
+}
+
+.favorite-form {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.favorite-btn {
+    background-color: rgba(13, 13, 13, 0.6);
+    color: #e8e2d9;
+    border: 1px solid #2a2a2a;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.favorite-btn:hover {
+    background-color: rgba(201, 168, 76, 0.25);
+    border-color: #c9a84c;
+}
+
+.favorite-btn.is-favorited {
+    color: #c9a84c;
+    border-color: #c9a84c;
+}
+
+.sale-badge {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    background-color: rgba(201, 168, 76, 0.9);
+    color: #0d0d0d;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+}
+
+.card-rating,
+.detail-rating {
+    color: #c9a84c;
+    margin-bottom: 0;
+}
+
+.sale-info {
+    color: #c9a84c;
+    font-size: 1.1rem;
+}
+
+/* ── Pagination ── */
+.pagination-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.pagination-ellipsis {
+    color: #7a7468;
+    padding: 0 0.25rem;
+}
+
+/* ── Comments ── */
+.comment-form {
+    margin-bottom: 1.5rem;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comment-item {
+    background-color: #161616;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+}
+
+.comment-author {
+    color: #c9a84c;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.comment-date {
+    color: #7a7468;
+    font-weight: 400;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+.comment-text {
+    color: #e8e2d9;
+    margin-bottom: 0;
+}
+
+/* ── Rating form ── */
+.rating-form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.rating-form select {
+    max-width: 220px;
+}
+
+/* ── Links ── */
+.btn-link-gold {
+    color: #c9a84c;
+    text-decoration: underline;
+}
+
+/* ── Admin badge ── */
+.badge-admin {
+    background-color: #c9a84c;
+    color: #0d0d0d;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.25rem;
+}
+
+.badge-guest {
+    background-color: #2a2a2a;
+    color: #7a7468;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* ── Admin table ── */
+.admin-table {
+    background-color: #161616;
+    border-radius: 4px;
+    color: #e8e2d9;
+    overflow: hidden;
+}
+
+.admin-table th {
+    color: #7a7468;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.admin-table td {
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: middle;
+}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}{{ artwork.title }} — Art Gallery{% endblock %}
+
+{% block content %}
+<a href="/" class="detail-back">← Back to Collection</a>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <img src="/static/images/{{ artwork.image }}" class="detail-image" alt="{{ artwork.title }}">
+  </div>
+  <div class="col-lg-6">
+    <div class="detail-panel">
+      <span class="category-badge">{{ artwork.category }}</span>
+      <h2>{{ artwork.title }}</h2>
+      <p class="meta">by {{ artwork.artist }}</p>
+
+      {% if artwork.owner %}
+      <p class="meta">Uploaded by {{ artwork.owner.username }}</p>
+      {% endif %}
+
+      {% if artwork.average_rating %}
+      <p class="detail-rating">★ {{ artwork.average_rating }} / 5 ({{ artwork.rating_count }} rating{% if artwork.rating_count != 1 %}s{% endif %})</p>
+      {% else %}
+      <p class="detail-rating">No ratings yet</p>
+      {% endif %}
+
+      {% if artwork.for_sale %}
+      <p class="sale-info">
+        For Sale{% if artwork.price %} — <strong>${{ "%.2f"|format(artwork.price) }}</strong>{% endif %}
+      </p>
+      {% endif %}
+
+      <p class="description">{{ artwork.description }}</p>
+
+      <div class="detail-actions">
+        <a href="/" class="btn btn-ghost">← All Works</a>
+        {% if current_user.is_authenticated %}
+        <form method="POST" action="/favorite/{{ artwork.id }}" class="d-inline">
+          <button type="submit" class="btn {% if is_favorited %}btn-gold{% else %}btn-outline-gold{% endif %}">
+            {% if is_favorited %}♥ Favorited{% else %}♡ Add to Favorites{% endif %}
+          </button>
+        </form>
+        {% endif %}
+        {% if current_user.is_authenticated and (current_user.is_admin() or artwork.user_id == current_user.id) %}
+        <a href="/update_artwork/{{ artwork.id }}" class="btn btn-outline-gold">Edit Artwork</a>
+        <a href="/delete_artwork/{{ artwork.id }}" class="btn btn-danger">Delete</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RATING ── -->
+<div class="section-divider">
+  <h2>Rate this Artwork</h2>
+</div>
+
+{% if current_user.is_authenticated %}
+<form method="POST" class="rating-form">
+  {{ rating_form.hidden_tag() }}
+  {{ rating_form.value(class="form-select") }}
+  <button type="submit" name="submit_rating" class="btn btn-gold">
+    {% if user_rating %}Update Rating{% else %}Submit Rating{% endif %}
+  </button>
+  {% if user_rating %}
+  <span class="meta">Your current rating: {{ user_rating }} / 5</span>
+  {% endif %}
+</form>
+{% else %}
+<p class="meta"><a href="/login" class="btn-link-gold">Log in</a> to rate this artwork.</p>
+{% endif %}
+
+<!-- ── COMMENTS ── -->
+<div class="section-divider">
+  <h2>Comments ({{ comments | length }})</h2>
+</div>
+
+{% if current_user.is_authenticated %}
+<form method="POST" class="comment-form">
+  {{ comment_form.hidden_tag() }}
+  <div class="form-row">{{ comment_form.text(class="form-control", placeholder="Share your thoughts...", rows=3) }}</div>
+  <button type="submit" name="submit_comment" class="btn btn-gold">Post Comment</button>
+</form>
+{% else %}
+<p class="meta"><a href="/login" class="btn-link-gold">Log in</a> to leave a comment.</p>
+{% endif %}
+
+<div class="comments-list">
+  {% for comment in comments %}
+  <div class="comment-item">
+    <p class="comment-author">{{ comment.author.username }} <span class="comment-date">{{ comment.created_at.strftime('%b %d, %Y %H:%M') }}</span></p>
+    <p class="comment-text">{{ comment.text }}</p>
+  </div>
+  {% else %}
+  <p class="meta">No comments yet. Be the first to share your thoughts!</p>
+  {% endfor %}
+</div>
+
+{% endblock %}
